@@ -1,6 +1,7 @@
 const req = require("express/lib/request");
 const res = require("express/lib/response");
-const db = require("../models");
+const db = require("../../models");
+var jwt = require('jsonwebtoken');
 const User = db.user;
 
 // Create and Save a new USER
@@ -83,13 +84,18 @@ exports.login = (req, res) => {
           success: false,
           message: "Wrong username or password!",
         });
-      else
+      else {
+        var jwt = require('jsonwebtoken');
+        var token = jwt.sign({ data }, 'hosituan');
+        // save user token
         res.send({
           success: true,
           data: {
-            token: "user_access_token",
+            accessToken: token,
           },
         });
+      }
+
     })
     .catch((err) => {
       res.status(500).send({
