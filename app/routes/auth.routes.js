@@ -28,5 +28,5 @@ module.exports = app => {
   // // Create a new Tutorial
   // router.delete("/", tutorials.deleteAll);
 
-  // app.use("/api/v1/auth", router);
+  app.use("/api/v1/auth", router);
 };
