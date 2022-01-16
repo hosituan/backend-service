@@ -48,8 +48,8 @@ exports.createPost = (req, res) => {
 };
 
 exports.getPostDetail = (req, res) => {
-  const postId = req.body.postId;
-  const groupId = req.body.groupId ?? "newfeed";
+  const postId = req.query.postId;
+  const groupId = req.query.groupId ?? "newfeed";
   Post.findOne({
     _id: postId,
     groupId: groupId,
@@ -75,17 +75,9 @@ exports.getPostDetail = (req, res) => {
 };
 
 exports.getList = (req, res) => {
-  // if (!req.body.accessToken) {
-  //   res.status(400).send({
-  //     success: false,
-  //     message: "Unauthentication!",
-  //   });
-  //   return;
-  // }
   var jwt = require("jwt-decode");
-  var decoded = jwt(req.body.accessToken);
   const page = req.query.page ?? 1; //todo
-  const groupId = req.body.groupId ?? "newfeed";
+  const groupId = req.query.groupId ?? "newfeed";
   const limit = req.query.limit ?? 20;
   const startIndex = page * limit; //todo
   Post.find({

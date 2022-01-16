@@ -6,7 +6,7 @@ module.exports = (app) => {
 
   // Create a new Tutorial
   router.post("/create", postService.createPost)
-  router.post("/list", postService.getList)
+  router.get("/list", postService.getList)
   router.get("/detail", postService.getPostDetail)
 
   router.post("/upvote", voteService.upvote)
