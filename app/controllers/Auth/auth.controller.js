@@ -1,7 +1,9 @@
 const req = require("express/lib/request");
 const res = require("express/lib/response");
 const db = require("../../models");
-var jwt = require('jsonwebtoken');
+const uttils = require("../../service/ultils")
+
+var jwt = require("jsonwebtoken");
 const User = db.user;
 
 // Create and Save a new USER
@@ -32,7 +34,7 @@ exports.create = (req, res) => {
   // Create a User
   const user = new User({
     username: req.body.username,
-    password: req.body.password,
+    password: uttils.getHash(req.body.password),
     email: req.body.email,
   });
 
@@ -54,7 +56,6 @@ exports.create = (req, res) => {
 };
 
 //Login
-
 exports.login = (req, res) => {
   // Validate request
   if (!req.body.username) {
@@ -74,9 +75,10 @@ exports.login = (req, res) => {
 
   const username = req.body.username;
   const password = req.body.password;
+
   User.find({
     username: username,
-    password: password,
+    password: uttils.getHash(password),
   })
     .then((data) => {
       if (!data || data.length == 0)
@@ -85,8 +87,9 @@ exports.login = (req, res) => {
           message: "Wrong username or password!",
         });
       else {
-        var jwt = require('jsonwebtoken');
-        var token = jwt.sign({ data }, 'hosituan');
+        var jwt = require("jsonwebtoken");
+        const info = data[0];
+        var token = jwt.sign({ info }, "hosituan");
         // save user token
         res.send({
           success: true,
@@ -95,7 +98,6 @@ exports.login = (req, res) => {
           },
         });
       }
-
     })
     .catch((err) => {
       res.status(500).send({

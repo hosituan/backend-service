@@ -1,10 +1,15 @@
-
 module.exports = mongoose => {
     var schema = mongoose.Schema(
       {
+        title: String,
+        content: String,
         ownerId: String,
-        postId: String,
-        postOwnerId: String
+        groupId: String,
+        isPublic: Boolean,
+        upvoteCount: Number,
+        downvoteCount: Number,
+        upvotedUserId: [],
+        downvotedUserId: []
       },
       { timestamps: true }
     );
@@ -15,6 +20,6 @@ module.exports = mongoose => {
       return object;
     });
   
-    const Vote = mongoose.model("feeds", schema);
-    return Post;
+    const Post = mongoose.model("feeds", schema);
+    return Post
   };

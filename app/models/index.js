@@ -7,6 +7,5 @@ const db = {};
 db.mongoose = mongoose;
 db.url = dbConfig.url;
 db.user = require("./Auth/user.model.js")(mongoose);
-db.post = require("./Feed/post.model.js")(mongoose);
-
+db.feed = require("./Feed/feed.model.js")(mongoose);
 module.exports = db;
